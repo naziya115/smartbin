@@ -1,3 +1,4 @@
+## Arduino details for the project:
 * arduino uno r3
 * ultrasonic module
 * jumpers
