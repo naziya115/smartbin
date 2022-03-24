@@ -1,2 +1,2 @@
 - how to make arduino work without a computer
-- put everythin into the bin
+- put everything into the trashbin
