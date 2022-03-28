@@ -79,7 +79,7 @@ delay(1000);
  } 
 else 
 {
-servo.write(90);
+servo.write(180);
 
  }
 
