@@ -356,7 +356,7 @@ void loop(){
   }*/
 }
 ```
-### Control servo and buzzer with a joystick
+### Control servo and a buzzer with a joystick
 ```
 #include <Servo.h>
 
