@@ -249,6 +249,8 @@ void loop(){
 
 
 ### ALmost implemented joystick to servo
+
+```
 #include <Servo.h>
 
 // notes for buzzer
@@ -353,3 +355,4 @@ void loop(){
     delay(500);
   }*/
 }
+```
