@@ -165,3 +165,84 @@ void loop(){
   }
 }
 ```
+
+### Same code but just in case...
+```
+#include <Servo.h>
+
+// notes for buzzer
+#define NOTE_A3  220
+#define NOTE_C4  262
+#define NOTE_E4  330
+#define NOTE_G4  392
+
+Servo servo;
+
+// servo pins
+int trigPin = 9;
+int echoPin = 8;
+// buzzer pin
+int piezoPin =5; 
+
+long duration;
+int distance;
+
+// change this to make the song slower or faster
+int tempo = 160;
+
+int melody[] = {
+    NOTE_C4,4, NOTE_E4,4, NOTE_G4,4, NOTE_E4,4, 
+    NOTE_C4,4, NOTE_E4,8, NOTE_G4,-4, NOTE_E4,4,
+    NOTE_A3,4, NOTE_C4,4, NOTE_E4,4, NOTE_C4,4,
+  
+};
+int notes = sizeof(melody) / sizeof(melody[0]) / 2;
+int wholenote = (60000 * 4) / tempo;
+int divider = 0, noteDuration = 0;
+
+void setup(){
+  servo.attach(7);
+  servo.write(0);
+  delay(1000);
+
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(piezoPin, OUTPUT);
+  Serial.begin(9600); 
+}
+void loop(){
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  duration = pulseIn(echoPin, HIGH);
+  distance= duration*0.034/2;
+  Serial.print("Distance: ");
+  Serial.println(distance);
+    if ( distance <= 25){
+      servo.write(0);
+      
+      for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
+        divider = melody[thisNote + 1];
+        if (divider > 0) {
+          noteDuration = (wholenote) / divider;
+        }
+        else if (divider < 0) {
+          noteDuration = (wholenote) / abs(divider);
+          noteDuration *= 1.5; 
+        }
+      tone(piezoPin, melody[thisNote], noteDuration * 0.9);
+      delay(noteDuration);
+      noTone(piezoPin); 
+     }
+    }
+   else{
+    noTone(piezoPin);
+    servo.write(180);
+    delay(500);
+  }
+}
+```
